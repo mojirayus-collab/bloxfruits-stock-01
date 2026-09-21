@@ -12,10 +12,10 @@ import requests
 
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "").strip()
 
-# Public Blox Fruits Stock API
-STOCK_API_URL = (
-    "https://blox-fruits-api.onrender.com/api/bloxfruits/stock"
-)
+# RapidAPI - Blox Fruit Stock/Fruit
+RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY", "").strip()
+RAPIDAPI_HOST = "blox-fruit-stock-fruit.p.rapidapi.com"
+STOCK_API_URL = f"https://{RAPIDAPI_HOST}/"
 
 # ไฟล์เก็บ stock ล่าสุดที่เคยส่ง
 LAST_STOCK_FILE = "last_stock.json"
@@ -189,11 +189,18 @@ def fetch_stock():
 
     print("กำลังดึง Blox Fruits stock...")
 
+    if not RAPIDAPI_KEY:
+        print("ERROR: ไม่พบ RAPIDAPI_KEY")
+        return None
+
     try:
         response = requests.get(
             STOCK_API_URL,
             timeout=REQUEST_TIMEOUT,
             headers={
+                "Content-Type": "application/json",
+                "x-rapidapi-host": RAPIDAPI_HOST,
+                "x-rapidapi-key": RAPIDAPI_KEY,
                 "User-Agent": "BloxFruits-Discord-Stock-Bot/1.0"
             }
         )
