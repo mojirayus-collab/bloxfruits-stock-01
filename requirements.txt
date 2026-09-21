@@ -1,0 +1,5 @@
+requests
+beautifulsoup4
+curl_cffi
+playwright
+requests>=2.32.0,<3.0.0
